@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ВидеоВизитки</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-hero {
+      background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 30%, #fce7f3 60%, #fae8ff 100%);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="sticky top-0 bg-white/80 backdrop-blur border-b z-50">
+    <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+      <span class="text-lg font-bold">✨ ВидеоВизитки</span>
+      <nav class="flex gap-6 text-sm text-gray-500">
+        <a href="#about" class="hover:text-gray-900">Описание</a>
+        <a href="#examples" class="hover:text-gray-900">Примеры</a>
+        <a href="#pricing" class="hover:text-gray-900">Прайс</a>
+      </nav>
+    </div>
+  </header>
+
+  <section id="about" class="gradient-hero px-4 py-20 text-center">
+    <div class="max-w-3xl mx-auto space-y-6">
+      <div class="text-5xl">✨</div>
+      <h1 class="text-4xl font-bold">AI-аватар для вашего бизнеса</h1>
+      <p class="text-lg text-gray-600">Создаю анимированные маскоты, которые сделают ваш клиентский сервис уникальным</p>
+      <p class="text-gray-500">AI-аватар станет вашим цифровым помощником: напомнит клиентам о визите, поздравит с праздниками и повысит лояльность</p>
+    </div>
+  </section>
+
+  <section class="px-4 py-20 max-w-5xl mx-auto">
+    <h2 class="text-2xl font-semibold text-center mb-12">Кому это подходит</h2>
+    <div class="grid gap-6 sm:grid-cols-2">
+      <div class="flex gap-4 bg-white rounded-xl border p-5">
+        <div class="text-2xl">🦷</div>
+        <div><h3 class="font-medium">Детские стоматологии</h3><p class="text-sm text-gray-500">Снизьте страх перед лечением — мультяшный персонаж познакомит ребёнка с клиникой</p></div>
+      </div>
+      <div class="flex gap-4 bg-white rounded-xl border p-5">
+        <div class="text-2xl">🎓</div>
+        <div><h3 class="font-medium">Детские школы</h3><p class="text-sm text-gray-500">Яркая визитка центра, кружка или репетитора</p></div>
+      </div>
+      <div class="flex gap-4 bg-white rounded-xl border p-5">
+        <div class="text-2xl">🏕️</div>
+        <div><h3 class="font-medium">Детские лагеря</h3><p class="text-sm text-gray-500">Покажите атмосферу смены в формате, который дети захотят переслать друзьям</p></div>
+      </div>
+      <div class="flex gap-4 bg-white rounded-xl border p-5">
+        <div class="text-2xl">🏋️</div>
+        <div><h3 class="font-medium">Спортивные секции</h3><p class="text-sm text-gray-500">Мотивирующий ролик с маскотом секции</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="examples" class="px-4 py-20 max-w-5xl mx-auto">
+    <h2 class="text-2xl font-semibold text-center mb-12">Примеры работ</h2>
+    <div class="grid gap-8 sm:grid-cols-3">
+      <div class="bg-white rounded-xl border overflow-hidden">
+        <div class="aspect-video bg-gray-200 flex items-center justify-center text-gray-400">🎬 Видео 1</div>
+        <div class="p-4"><p class="text-sm text-gray-500">Для стоматологии</p></div>
+      </div>
+      <div class="bg-white rounded-xl border overflow-hidden">
+        <div class="aspect-video bg-gray-200 flex items-center justify-center text-gray-400">🎬 Видео 2</div>
+        <div class="p-4"><p class="text-sm text-gray-500">Для лагеря</p></div>
+      </div>
+      <div class="bg-white rounded-xl border overflow-hidden">
+        <div class="aspect-video bg-gray-200 flex items-center justify-center text-gray-400">🎬 Видео 3</div>
+        <div class="p-4"><p class="text-sm text-gray-500">Для спортивной секции</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="px-4 py-20 max-w-5xl mx-auto">
+    <h2 class="text-2xl font-semibold text-center mb-12">Тарифы</h2>
+    <div class="grid gap-6 sm:grid-cols-4">
+      <div class="bg-white rounded-xl border p-6">
+        <div class="text-2xl mb-3">🎬</div>
+        <h3 class="font-medium">AI-аватар/видеовизитка</h3>
+        <p class="text-3xl font-bold mt-4">3 000 <span class="text-sm font-normal text-gray-500">руб/разово</span></p>
+        <ul class="mt-4 space-y-2 text-sm text-gray-500">
+          <li>✦ Разработка персонажа</li>
+          <li>✦ Анимация 8–10 сек</li>
+          <li>✦ HD-качество</li>
+        </ul>
+      </div>
+      <div class="bg-white rounded-xl border p-6 border-purple-300 shadow-lg relative">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-purple-600 text-white px-3 py-1 rounded-full text-xs">Рекомендую</div>
+        <div class="text-2xl mb-3 mt-2">🌐</div>
+        <h3 class="font-medium">Сайт + видеовизитка</h3>
+        <p class="text-3xl font-bold mt-4">12 000 <span class="text-sm font-normal text-gray-500">руб/разово</span></p>
+        <ul class="mt-4 space-y-2 text-sm text-gray-500">
+          <li>✦ Всё из предыдущего</li>
+          <li>✦ Лендинг с маскотом</li>
+        </ul>
+      </div>
+      <div class="bg-white rounded-xl border p-6">
+        <div class="text-2xl mb-3">♾️</div>
+        <h3 class="font-medium">Ежедневные визитки</h3>
+        <p class="text-3xl font-bold mt-4">20 000 <span class="text-sm font-normal text-gray-500">руб/мес</span></p>
+        <ul class="mt-4 space-y-2 text-sm text-gray-500">
+          <li>✦ Индивидуальный персонаж</li>
+          <li>✦ Ежедневно</li>
+          <li>✦ Приоритетная поддержка</li>
+        </ul>
+      </div>
+      <div class="bg-white rounded-xl border p-6">
+        <div class="text-2xl mb-3">✨</div>
+        <h3 class="font-medium">Маскот + лендинг</h3>
+        <p class="text-3xl font-bold mt-4">По запросу</p>
+        <ul class="mt-4 space-y-2 text-sm text-gray-500">
+          <li>✦ Уникальный маскот</li>
+          <li>✦ Полноценный лендинг</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t py-6 text-center text-xs text-gray-400">
+    © 2025 ВидеоВизитки
+  </footer>
+</body>
+</html>
