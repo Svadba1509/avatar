@@ -3,9 +3,6 @@
 import { useState } from "react";
 import { Send } from "lucide-react";
 import { toast } from "sonner";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 
 export function ContactForm() {
   const [name, setName] = useState("");
@@ -42,23 +39,45 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-5" noValidate>
       <div className="space-y-2">
         <label htmlFor="contact-name" className="text-sm font-medium">Имя</label>
-        <Input id="contact-name" placeholder="Как к вам обращаться?" value={name} onChange={(e) => setName(e.target.value)} />
-        {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
+        <input
+          id="contact-name"
+          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+          placeholder="Как к вам обращаться?"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
       </div>
       <div className="space-y-2">
         <label htmlFor="contact-contact" className="text-sm font-medium">Контакт</label>
-        <Input id="contact-contact" placeholder="Телефон или email" value={contact} onChange={(e) => setContact(e.target.value)} />
-        {errors.contact && <p className="text-sm text-destructive">{errors.contact}</p>}
+        <input
+          id="contact-contact"
+          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+          placeholder="Телефон или email"
+          value={contact}
+          onChange={(e) => setContact(e.target.value)}
+        />
+        {errors.contact && <p className="text-sm text-red-500">{errors.contact}</p>}
       </div>
       <div className="space-y-2">
         <label htmlFor="contact-message" className="text-sm font-medium">Сообщение</label>
-        <Textarea id="contact-message" placeholder="Опишите, что вас интересует" value={message} onChange={(e) => setMessage(e.target.value)} />
-        {errors.message && <p className="text-sm text-destructive">{errors.message}</p>}
+        <textarea
+          id="contact-message"
+          className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm"
+          placeholder="Опишите, что вас интересует"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        {errors.message && <p className="text-sm text-red-500">{errors.message}</p>}
       </div>
-      <Button type="submit" disabled={pending}>
-        <Send className="mr-2 h-4 w-4" />
+      <button
+        type="submit"
+        disabled={pending}
+        className="inline-flex items-center justify-center gap-2 rounded-md bg-primary text-primary-foreground h-9 px-4 py-2 text-sm font-medium shadow hover:bg-primary/90 disabled:opacity-50"
+      >
+        <Send className="h-4 w-4" />
         {pending ? "Отправка..." : "Отправить заявку"}
-      </Button>
+      </button>
     </form>
   );
 }
