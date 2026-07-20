@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { contactFormSchema } from "@/lib/validation/contact";
 
 export function ContactForm() {
   const [name, setName] = useState("");
@@ -15,20 +14,19 @@ export function ContactForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pending, setPending] = useState(false);
 
+  function validate() {
+    const errs: Record<string, string> = {};
+    if (!name.trim()) errs.name = "Имя обязательно";
+    if (!contact.trim()) errs.contact = "Контакт обязателен";
+    if (!message.trim()) errs.message = "Сообщение обязательно";
+    return errs;
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setErrors({});
-
-    const parsed = contactFormSchema.safeParse({ name, contact, message });
-    if (!parsed.success) {
-      const flat = parsed.error.flatten();
-      setErrors({
-        name: flat.fieldErrors.name?.[0] || "",
-        contact: flat.fieldErrors.contact?.[0] || "",
-        message: flat.fieldErrors.message?.[0] || "",
-      });
-      return;
-    }
+    const errs = validate();
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
 
     setPending(true);
     const id = toast.loading("Отправляем...");
@@ -44,17 +42,17 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-5" noValidate>
       <div className="space-y-2">
         <label htmlFor="contact-name" className="text-sm font-medium">Имя</label>
-        <Input id="contact-name" placeholder="Как к вам обращаться?" value={name} onChange={(e) => setName(e.target.value)} aria-invalid={!!errors.name} />
+        <Input id="contact-name" placeholder="Как к вам обращаться?" value={name} onChange={(e) => setName(e.target.value)} />
         {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
       </div>
       <div className="space-y-2">
         <label htmlFor="contact-contact" className="text-sm font-medium">Контакт</label>
-        <Input id="contact-contact" placeholder="Телефон или email" value={contact} onChange={(e) => setContact(e.target.value)} aria-invalid={!!errors.contact} />
+        <Input id="contact-contact" placeholder="Телефон или email" value={contact} onChange={(e) => setContact(e.target.value)} />
         {errors.contact && <p className="text-sm text-destructive">{errors.contact}</p>}
       </div>
       <div className="space-y-2">
         <label htmlFor="contact-message" className="text-sm font-medium">Сообщение</label>
-        <Textarea id="contact-message" placeholder="Опишите, что вас интересует" value={message} onChange={(e) => setMessage(e.target.value)} aria-invalid={!!errors.message} />
+        <Textarea id="contact-message" placeholder="Опишите, что вас интересует" value={message} onChange={(e) => setMessage(e.target.value)} />
         {errors.message && <p className="text-sm text-destructive">{errors.message}</p>}
       </div>
       <Button type="submit" disabled={pending}>
