@@ -12,9 +12,10 @@
     #gameCanvas {
       display: block;
       margin: 0 auto;
-      border-radius: 12px;
-      background: #e8f5e9;
+      border-radius: 16px;
+      background: #f0fdf4;
       cursor: none;
+      touch-action: none;
     }
   </style>
 </head>
@@ -143,9 +144,9 @@
   </section>
 
   <section id="game" class="px-4 py-20 max-w-3xl mx-auto">
-    <h2 class="text-2xl font-semibold text-center mb-8">🦷 Почисти зубик!</h2>
-    <p class="text-center text-gray-500 mb-6">Води мышкой, чтобы чистить зубной щёткой микробы!</p>
-    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <h2 class="text-2xl font-semibold text-center mb-2">🦷 Почисти зубик!</h2>
+    <p class="text-center text-gray-500 mb-6">Вариант игры для доброго зубика</p>
+    <canvas id="gameCanvas" width="600" height="420"></canvas>
     <div class="text-center mt-4">
       <button onclick="resetGame()" class="bg-purple-600 text-white px-6 py-2 rounded-full text-sm hover:bg-purple-700 transition-colors">Начать заново</button>
     </div>
@@ -166,148 +167,261 @@
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
-    let toothX = 300, toothY = 300;
+    let toothX = 300, toothY = 310;
     let brushX = 300, brushY = 150;
     let germs = [];
     let toothHealth = 100;
     let gameOver = false;
     let smile = true;
+    let score = 0;
 
     function spawnGerm() {
       germs.push({
         x: Math.random() * 540 + 30,
         y: -20,
-        speed: 0.5 + Math.random() * 0.8,
-        size: 12 + Math.random() * 8,
+        speed: 0.4 + Math.random() * 0.7,
+        size: 14 + Math.random() * 6,
         landed: false,
         landX: 0,
-        landY: 0
+        landY: 0,
+        angle: Math.random() * Math.PI * 2
       });
     }
 
     function drawTooth(x, y) {
+      // Main tooth shape - more realistic and cute
+      ctx.save();
+      
+      // Shadow
+      ctx.beginPath();
+      ctx.ellipse(x + 3, y + 5, 48, 38, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,0,0,0.05)';
+      ctx.fill();
+
       // Tooth body
       ctx.beginPath();
-      ctx.moveTo(x - 40, y + 10);
-      ctx.lineTo(x - 40, y - 20);
-      ctx.quadraticCurveTo(x - 40, y - 50, x - 15, y - 50);
-      ctx.quadraticCurveTo(x, y - 50, x + 15, y - 50);
-      ctx.quadraticCurveTo(x + 40, y - 50, x + 40, y - 20);
-      ctx.lineTo(x + 40, y + 10);
-      ctx.quadraticCurveTo(x + 40, y + 30, x + 20, y + 30);
-      ctx.lineTo(x - 20, y + 30);
-      ctx.quadraticCurveTo(x - 40, y + 30, x - 40, y + 10);
+      ctx.moveTo(x - 42, y + 8);
+      ctx.quadraticCurveTo(x - 44, y - 10, x - 38, y - 25);
+      ctx.quadraticCurveTo(x - 30, y - 48, x - 12, y - 52);
+      ctx.quadraticCurveTo(x, y - 54, x + 12, y - 52);
+      ctx.quadraticCurveTo(x + 30, y - 48, x + 38, y - 25);
+      ctx.quadraticCurveTo(x + 44, y - 10, x + 42, y + 8);
+      ctx.quadraticCurveTo(x + 40, y + 25, x + 25, y + 30);
+      ctx.quadraticCurveTo(x + 10, y + 35, x, y + 33);
+      ctx.quadraticCurveTo(x - 10, y + 35, x - 25, y + 30);
+      ctx.quadraticCurveTo(x - 40, y + 25, x - 42, y + 8);
       ctx.closePath();
 
-      // Color based on health
-      const healthColor = Math.floor((1 - toothHealth / 100) * 180);
-      ctx.fillStyle = `rgb(${255 - healthColor}, ${255 - healthColor * 0.5}, ${255 - healthColor * 0.3})`;
+      // Gradient fill
+      const healthRatio = toothHealth / 100;
+      const r = Math.floor(255 - (1 - healthRatio) * 80);
+      const g = Math.floor(255 - (1 - healthRatio) * 60);
+      const b = Math.floor(255 - (1 - healthRatio) * 30);
+      
+      const grad = ctx.createLinearGradient(x, y - 50, x, y + 30);
+      grad.addColorStop(0, `rgb(${Math.min(255,r+20)}, ${Math.min(255,g+20)}, ${Math.min(255,b+20)})`);
+      grad.addColorStop(1, `rgb(${r}, ${g}, ${b})`);
+      ctx.fillStyle = grad;
       ctx.fill();
-      ctx.strokeStyle = '#999';
-      ctx.lineWidth = 2;
+      
+      ctx.strokeStyle = '#c0c0c0';
+      ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // Dark spots
+      // Highlight
+      ctx.beginPath();
+      ctx.ellipse(x - 15, y - 30, 10, 14, -0.2, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.4)';
+      ctx.fill();
+
+      // Dark spots from landed germs
       for (let i = 0; i < germs.length; i++) {
         if (germs[i].landed) {
           ctx.beginPath();
-          ctx.arc(germs[i].landX, germs[i].landY, 6, 0, Math.PI * 2);
-          ctx.fillStyle = '#4a2800';
+          ctx.arc(germs[i].landX, germs[i].landY, 7, 0, Math.PI * 2);
+          ctx.fillStyle = '#5c3a1e';
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(germs[i].landX - 2, germs[i].landY - 2, 3, 0, Math.PI * 2);
+          ctx.fillStyle = '#7a4e2a';
           ctx.fill();
         }
       }
 
       // Face
       if (smile) {
-        // Happy eyes
+        // Happy eyes - closed happy arcs
         ctx.beginPath();
-        ctx.arc(x - 12, y - 15, 4, 0, Math.PI * 2);
-        ctx.arc(x + 12, y - 15, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#333';
+        ctx.arc(x - 14, y - 18, 5, 0.1, Math.PI - 0.1);
+        ctx.strokeStyle = '#444';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(x + 14, y - 18, 5, 0.1, Math.PI - 0.1);
+        ctx.stroke();
+
+        // Rosy cheeks
+        ctx.beginPath();
+        ctx.arc(x - 22, y - 8, 6, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,150,150,0.3)';
         ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x + 22, y - 8, 6, 0, Math.PI * 2);
+        ctx.fill();
+
         // Happy smile
         ctx.beginPath();
-        ctx.arc(x, y + 2, 12, 0, Math.PI);
-        ctx.strokeStyle = '#333';
-        ctx.lineWidth = 2;
+        ctx.arc(x, y + 2, 14, 0.1, Math.PI - 0.1);
+        ctx.strokeStyle = '#444';
+        ctx.lineWidth = 2.5;
         ctx.stroke();
       } else {
         // Sad eyes
         ctx.beginPath();
-        ctx.arc(x - 12, y - 15, 4, 0, Math.PI * 2);
-        ctx.arc(x + 12, y - 15, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#333';
+        ctx.arc(x - 14, y - 18, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#444';
         ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x + 14, y - 18, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Tear
+        ctx.beginPath();
+        ctx.ellipse(x - 20, y - 8, 2, 4, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(100,180,255,0.5)';
+        ctx.fill();
+
         // Sad mouth
         ctx.beginPath();
-        ctx.arc(x, y + 8, 10, Math.PI, 0);
-        ctx.strokeStyle = '#333';
-        ctx.lineWidth = 2;
+        ctx.arc(x, y + 10, 10, Math.PI + 0.2, -0.2);
+        ctx.strokeStyle = '#444';
+        ctx.lineWidth = 2.5;
         ctx.stroke();
       }
+
+      ctx.restore();
     }
 
     function drawBrush(x, y) {
+      ctx.save();
+      
       // Handle
       ctx.beginPath();
-      ctx.moveTo(x - 3, y + 40);
-      ctx.lineTo(x + 3, y + 40);
-      ctx.lineTo(x + 3, y - 10);
-      ctx.lineTo(x - 3, y - 10);
+      ctx.moveTo(x - 4, y + 50);
+      ctx.lineTo(x + 4, y + 50);
+      ctx.lineTo(x + 5, y - 5);
+      ctx.lineTo(x - 5, y - 5);
       ctx.closePath();
-      ctx.fillStyle = '#7c3aed';
+      
+      const handleGrad = ctx.createLinearGradient(x, y + 50, x, y - 5);
+      handleGrad.addColorStop(0, '#6366f1');
+      handleGrad.addColorStop(1, '#818cf8');
+      ctx.fillStyle = handleGrad;
       ctx.fill();
+      ctx.strokeStyle = '#4f46e5';
+      ctx.lineWidth = 1;
+      ctx.stroke();
 
-      // Head
+      // Brush head
       ctx.beginPath();
-      ctx.roundRect(x - 15, y - 20, 30, 15, 5);
-      ctx.fillStyle = '#a78bfa';
+      ctx.roundRect(x - 18, y - 22, 36, 18, 6);
+      const headGrad = ctx.createLinearGradient(x, y - 22, x, y - 4);
+      headGrad.addColorStop(0, '#60a5fa');
+      headGrad.addColorStop(1, '#93c5fd');
+      ctx.fillStyle = headGrad;
       ctx.fill();
+      ctx.strokeStyle = '#3b82f6';
+      ctx.lineWidth = 1;
+      ctx.stroke();
 
       // Bristles
-      for (let i = -10; i <= 10; i += 5) {
+      for (let i = -14; i <= 14; i += 5) {
         ctx.beginPath();
-        ctx.moveTo(x + i, y - 20);
-        ctx.lineTo(x + i - 2, y - 28);
-        ctx.strokeStyle = '#ddd';
-        ctx.lineWidth = 2;
-        ctx.stroke();
+        ctx.moveTo(x + i, y - 22);
+        ctx.lineTo(x + i - 1, y - 32);
+        ctx.lineTo(x + i + 1, y - 32);
+        ctx.closePath();
+        ctx.fillStyle = '#fef3c7';
+        ctx.fill();
       }
+
+      ctx.restore();
     }
 
     function drawGerm(g) {
+      ctx.save();
+      ctx.translate(g.x, g.y);
+      ctx.rotate(g.angle);
+
+      // Main body
       ctx.beginPath();
-      ctx.arc(g.x, g.y, g.size, 0, Math.PI * 2);
-      ctx.fillStyle = '#4ade80';
+      ctx.arc(0, 0, g.size, 0, Math.PI * 2);
+      ctx.fillStyle = '#86efac';
       ctx.fill();
       ctx.strokeStyle = '#22c55e';
       ctx.lineWidth = 2;
       ctx.stroke();
-      // Angry eyes
+
+      // Little legs/arms (short sticks)
+      for (let i = 0; i < 6; i++) {
+        const a = (i / 6) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.moveTo(Math.cos(a) * g.size * 0.7, Math.sin(a) * g.size * 0.7);
+        ctx.lineTo(Math.cos(a) * (g.size + 6), Math.sin(a) * (g.size + 6));
+        ctx.strokeStyle = '#22c55e';
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+
+      // Angry face
       ctx.beginPath();
-      ctx.arc(g.x - 4, g.y - 2, 2, 0, Math.PI * 2);
-      ctx.arc(g.x + 4, g.y - 2, 2, 0, Math.PI * 2);
+      ctx.arc(-4, -2, 2.5, 0, Math.PI * 2);
       ctx.fillStyle = '#333';
       ctx.fill();
+      ctx.beginPath();
+      ctx.arc(4, -2, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Angry eyebrows
+      ctx.beginPath();
+      ctx.moveTo(-8, -7);
+      ctx.lineTo(-3, -5);
+      ctx.strokeStyle = '#333';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(8, -7);
+      ctx.lineTo(3, -5);
+      ctx.stroke();
+
+      // Open mouth
+      ctx.beginPath();
+      ctx.arc(0, 4, 3, 0, Math.PI);
+      ctx.fillStyle = '#333';
+      ctx.fill();
+
+      ctx.restore();
     }
 
     function update() {
       if (gameOver) return;
 
       // Spawn germs
-      if (Math.random() < 0.02) spawnGerm();
+      if (Math.random() < 0.015) spawnGerm();
 
       // Move germs
       for (let i = 0; i < germs.length; i++) {
         if (!germs[i].landed) {
           germs[i].y += germs[i].speed;
-          
+          germs[i].angle += 0.02;
+
           // Check if germ reaches tooth
-          if (germs[i].y + germs[i].size > toothY - 40) {
+          if (germs[i].y + germs[i].size > toothY - 35) {
             germs[i].landed = true;
-            germs[i].landX = toothX + (Math.random() - 0.5) * 50;
-            germs[i].landY = toothY + (Math.random() - 0.5) * 30;
-            toothHealth -= 10;
+            germs[i].landX = toothX + (Math.random() - 0.5) * 55;
+            germs[i].landY = toothY + (Math.random() - 0.5) * 25;
+            toothHealth -= 12;
             if (toothHealth <= 0) {
               toothHealth = 0;
               gameOver = true;
@@ -317,8 +431,9 @@
           // Check brush collision
           const dx = germs[i].x - brushX;
           const dy = germs[i].y - brushY;
-          if (dx * dx + dy * dy < 400) {
+          if (dx * dx + dy * dy < 500) {
             germs.splice(i, 1);
+            score++;
             i--;
             continue;
           }
@@ -329,11 +444,22 @@
       smile = toothHealth > 30;
 
       // Draw
-      ctx.clearRect(0, 0, 600, 400);
+      ctx.clearRect(0, 0, 600, 420);
       
       // Background
-      ctx.fillStyle = '#f0fdf4';
-      ctx.fillRect(0, 0, 600, 400);
+      const bgGrad = ctx.createLinearGradient(0, 0, 0, 420);
+      bgGrad.addColorStop(0, '#f0fdf4');
+      bgGrad.addColorStop(1, '#dcfce7');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, 600, 420);
+
+      // Draw ground line
+      ctx.beginPath();
+      ctx.moveTo(0, 345);
+      ctx.lineTo(600, 345);
+      ctx.strokeStyle = '#bbf7d0';
+      ctx.lineWidth = 2;
+      ctx.stroke();
 
       drawTooth(toothX, toothY);
       drawBrush(brushX, brushY);
@@ -342,51 +468,49 @@
         drawGerm(g);
       }
 
-      // Health bar
-      ctx.fillStyle = '#ddd';
-      ctx.fillRect(20, 20, 200, 15);
-      ctx.fillStyle = toothHealth > 50 ? '#22c55e' : toothHealth > 20 ? '#eab308' : '#ef4444';
-      ctx.fillRect(20, 20, toothHealth * 2, 15);
+      // Score
       ctx.fillStyle = '#666';
-      ctx.font = '12px sans-serif';
-      ctx.fillText('Здоровье зуба', 20, 50);
+      ctx.font = '14px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(`Почищено: ${score}`, 20, 30);
 
       if (gameOver) {
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
-        ctx.fillRect(0, 0, 600, 400);
+        ctx.fillRect(0, 0, 600, 420);
         ctx.fillStyle = '#fff';
-        ctx.font = '30px sans-serif';
+        ctx.font = '28px sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('😬 Зубик заболел!', 300, 180);
+        ctx.fillText('😬 Зубик заболел!', 300, 190);
         ctx.font = '16px sans-serif';
-        ctx.fillText('Нажми "Начать заново"', 300, 220);
-      } else if (germs.length === 0 && toothHealth > 80) {
-        ctx.fillStyle = '#22c55e';
-        ctx.font = '16px sans-serif';
+        ctx.fillText('Нажми "Начать заново"', 300, 230);
+      } else if (germs.length === 0 && toothHealth > 80 && score > 0) {
+        ctx.fillStyle = '#16a34a';
+        ctx.font = '18px sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('✨ Чистота! Так держать!', 300, 380);
+        ctx.fillText('✨ Чистота! Зубик счастлив!', 300, 400);
       }
     }
 
     canvas.addEventListener('mousemove', (e) => {
       const rect = canvas.getBoundingClientRect();
-      brushX = e.clientX - rect.left;
-      brushY = e.clientY - rect.top;
+      brushX = Math.max(20, Math.min(580, e.clientX - rect.left));
+      brushY = Math.max(20, Math.min(400, e.clientY - rect.top));
     });
 
     canvas.addEventListener('touchmove', (e) => {
       e.preventDefault();
       const rect = canvas.getBoundingClientRect();
       const touch = e.touches[0];
-      brushX = touch.clientX - rect.left;
-      brushY = touch.clientY - rect.top;
-    });
+      brushX = Math.max(20, Math.min(580, touch.clientX - rect.left));
+      brushY = Math.max(20, Math.min(400, touch.clientY - rect.top));
+    }, { passive: false });
 
     function resetGame() {
       germs = [];
       toothHealth = 100;
       gameOver = false;
       smile = true;
+      score = 0;
     }
 
     setInterval(update, 30);
