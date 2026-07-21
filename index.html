@@ -17,6 +17,55 @@
       cursor: none;
       touch-action: none;
     }
+
+    /* Виджет маскота */
+    .mascot-widget {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+      cursor: pointer;
+      animation: float 3s ease-in-out infinite;
+    }
+    .mascot-widget:hover {
+      animation: none;
+      transform: scale(1.1);
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .mascot-bubble {
+      position: absolute;
+      bottom: 80px;
+      right: 0;
+      background: white;
+      border-radius: 16px;
+      padding: 12px 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      font-size: 14px;
+      max-width: 200px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    .mascot-bubble.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .mascot-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      right: 30px;
+      width: 16px;
+      height: 16px;
+      background: white;
+      transform: rotate(45deg);
+      box-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+    }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -163,7 +212,34 @@
     © 2025 ВидеоВизитки
   </footer>
 
+  <!-- Виджет маскота -->
+  <div class="mascot-widget" onclick="toggleBubble()">
+    <div id="mascotBubble" class="mascot-bubble">
+      <p class="text-gray-700">Привет! 👋</p>
+      <p class="text-gray-500 text-sm mt-1">Хочешь своего маскота?</p>
+      <a href="#contact" class="text-purple-600 font-medium text-sm mt-2 inline-block" onclick="event.stopPropagation(); toggleBubble()">Напиши мне!</a>
+    </div>
+    <div class="w-16 h-16 rounded-full overflow-hidden shadow-lg shadow-purple-200 border-2 border-white">
+      <img src="vibecraft_assets_IMG_8293.JPG" alt="Маскот" class="w-full h-full object-cover">
+    </div>
+  </div>
+
   <script>
+    function toggleBubble() {
+      const bubble = document.getElementById('mascotBubble');
+      bubble.classList.toggle('show');
+    }
+
+    setTimeout(() => {
+      document.getElementById('mascotBubble').classList.add('show');
+    }, 5000);
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.mascot-widget')) {
+        document.getElementById('mascotBubble').classList.remove('show');
+      }
+    });
+
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
@@ -189,16 +265,8 @@
     }
 
     function drawTooth(x, y) {
-      // Main tooth shape - more realistic and cute
       ctx.save();
       
-      // Shadow
-      ctx.beginPath();
-      ctx.ellipse(x + 3, y + 5, 48, 38, 0, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(0,0,0,0.05)';
-      ctx.fill();
-
-      // Tooth body
       ctx.beginPath();
       ctx.moveTo(x - 42, y + 8);
       ctx.quadraticCurveTo(x - 44, y - 10, x - 38, y - 25);
@@ -212,7 +280,6 @@
       ctx.quadraticCurveTo(x - 40, y + 25, x - 42, y + 8);
       ctx.closePath();
 
-      // Gradient fill
       const healthRatio = toothHealth / 100;
       const r = Math.floor(255 - (1 - healthRatio) * 80);
       const g = Math.floor(255 - (1 - healthRatio) * 60);
@@ -228,13 +295,11 @@
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // Highlight
       ctx.beginPath();
       ctx.ellipse(x - 15, y - 30, 10, 14, -0.2, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(255,255,255,0.4)';
       ctx.fill();
 
-      // Dark spots from landed germs
       for (let i = 0; i < germs.length; i++) {
         if (germs[i].landed) {
           ctx.beginPath();
@@ -248,9 +313,7 @@
         }
       }
 
-      // Face
       if (smile) {
-        // Happy eyes - closed happy arcs
         ctx.beginPath();
         ctx.arc(x - 14, y - 18, 5, 0.1, Math.PI - 0.1);
         ctx.strokeStyle = '#444';
@@ -260,7 +323,6 @@
         ctx.arc(x + 14, y - 18, 5, 0.1, Math.PI - 0.1);
         ctx.stroke();
 
-        // Rosy cheeks
         ctx.beginPath();
         ctx.arc(x - 22, y - 8, 6, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(255,150,150,0.3)';
@@ -269,14 +331,12 @@
         ctx.arc(x + 22, y - 8, 6, 0, Math.PI * 2);
         ctx.fill();
 
-        // Happy smile
         ctx.beginPath();
         ctx.arc(x, y + 2, 14, 0.1, Math.PI - 0.1);
         ctx.strokeStyle = '#444';
         ctx.lineWidth = 2.5;
         ctx.stroke();
       } else {
-        // Sad eyes
         ctx.beginPath();
         ctx.arc(x - 14, y - 18, 4, 0, Math.PI * 2);
         ctx.fillStyle = '#444';
@@ -285,13 +345,11 @@
         ctx.arc(x + 14, y - 18, 4, 0, Math.PI * 2);
         ctx.fill();
 
-        // Tear
         ctx.beginPath();
         ctx.ellipse(x - 20, y - 8, 2, 4, 0, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(100,180,255,0.5)';
         ctx.fill();
 
-        // Sad mouth
         ctx.beginPath();
         ctx.arc(x, y + 10, 10, Math.PI + 0.2, -0.2);
         ctx.strokeStyle = '#444';
@@ -305,7 +363,6 @@
     function drawBrush(x, y) {
       ctx.save();
       
-      // Handle
       ctx.beginPath();
       ctx.moveTo(x - 4, y + 50);
       ctx.lineTo(x + 4, y + 50);
@@ -322,7 +379,6 @@
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      // Brush head
       ctx.beginPath();
       ctx.roundRect(x - 18, y - 22, 36, 18, 6);
       const headGrad = ctx.createLinearGradient(x, y - 22, x, y - 4);
@@ -334,7 +390,6 @@
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      // Bristles
       for (let i = -14; i <= 14; i += 5) {
         ctx.beginPath();
         ctx.moveTo(x + i, y - 22);
@@ -353,7 +408,6 @@
       ctx.translate(g.x, g.y);
       ctx.rotate(g.angle);
 
-      // Main body
       ctx.beginPath();
       ctx.arc(0, 0, g.size, 0, Math.PI * 2);
       ctx.fillStyle = '#86efac';
@@ -362,7 +416,6 @@
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Little legs/arms (short sticks)
       for (let i = 0; i < 6; i++) {
         const a = (i / 6) * Math.PI * 2;
         ctx.beginPath();
@@ -374,7 +427,6 @@
         ctx.stroke();
       }
 
-      // Angry face
       ctx.beginPath();
       ctx.arc(-4, -2, 2.5, 0, Math.PI * 2);
       ctx.fillStyle = '#333';
@@ -383,7 +435,6 @@
       ctx.arc(4, -2, 2.5, 0, Math.PI * 2);
       ctx.fill();
 
-      // Angry eyebrows
       ctx.beginPath();
       ctx.moveTo(-8, -7);
       ctx.lineTo(-3, -5);
@@ -395,7 +446,6 @@
       ctx.lineTo(3, -5);
       ctx.stroke();
 
-      // Open mouth
       ctx.beginPath();
       ctx.arc(0, 4, 3, 0, Math.PI);
       ctx.fillStyle = '#333';
@@ -407,16 +457,13 @@
     function update() {
       if (gameOver) return;
 
-      // Spawn germs
       if (Math.random() < 0.015) spawnGerm();
 
-      // Move germs
       for (let i = 0; i < germs.length; i++) {
         if (!germs[i].landed) {
           germs[i].y += germs[i].speed;
           germs[i].angle += 0.02;
 
-          // Check if germ reaches tooth
           if (germs[i].y + germs[i].size > toothY - 35) {
             germs[i].landed = true;
             germs[i].landX = toothX + (Math.random() - 0.5) * 55;
@@ -428,7 +475,6 @@
             }
           }
 
-          // Check brush collision
           const dx = germs[i].x - brushX;
           const dy = germs[i].y - brushY;
           if (dx * dx + dy * dy < 500) {
@@ -440,20 +486,16 @@
         }
       }
 
-      // Update smile
       smile = toothHealth > 30;
 
-      // Draw
       ctx.clearRect(0, 0, 600, 420);
       
-      // Background
       const bgGrad = ctx.createLinearGradient(0, 0, 0, 420);
       bgGrad.addColorStop(0, '#f0fdf4');
       bgGrad.addColorStop(1, '#dcfce7');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, 600, 420);
 
-      // Draw ground line
       ctx.beginPath();
       ctx.moveTo(0, 345);
       ctx.lineTo(600, 345);
@@ -468,7 +510,6 @@
         drawGerm(g);
       }
 
-      // Score
       ctx.fillStyle = '#666';
       ctx.font = '14px sans-serif';
       ctx.textAlign = 'left';
