@@ -17,88 +17,6 @@
       animation: gradientShift 8s ease infinite;
     }
 
-    @keyframes floatStar {
-      0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
-      20% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { transform: translateY(-120px) rotate(360deg); opacity: 0; }
-    }
-    .star {
-      position: absolute;
-      font-size: 24px;
-      animation: floatStar 5s ease-in-out infinite;
-      pointer-events: none;
-      color: #fbbf24;
-      text-shadow: 0 0 10px rgba(251,191,36,0.5);
-    }
-
-    .mascot-widget {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      z-index: 100;
-      cursor: pointer;
-      animation: floatMascot 3s ease-in-out infinite;
-    }
-    .mascot-widget:hover {
-      animation: none;
-      transform: scale(1.05);
-    }
-    @keyframes floatMascot {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-12px); }
-    }
-
-    @keyframes blink {
-      0%, 90%, 100% { transform: scaleY(1); }
-      95% { transform: scaleY(0.1); }
-    }
-    .mascot-eyes {
-      animation: blink 4s ease-in-out infinite;
-    }
-
-    @keyframes wave {
-      0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(-20deg); }
-      75% { transform: rotate(20deg); }
-    }
-    .mascot-paw {
-      animation: wave 2.5s ease-in-out infinite;
-      transform-origin: bottom center;
-    }
-
-    .mascot-bubble {
-      position: absolute;
-      bottom: 100px;
-      right: 0;
-      background: white;
-      border-radius: 20px;
-      padding: 16px 20px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-      font-size: 15px;
-      max-width: 220px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all 0.3s ease;
-      pointer-events: none;
-    }
-    .mascot-bubble.show {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-    .mascot-bubble::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      right: 40px;
-      width: 20px;
-      height: 20px;
-      background: white;
-      transform: rotate(45deg);
-      box-shadow: 2px 2px 4px rgba(0,0,0,0.05);
-    }
-
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
@@ -140,17 +58,6 @@
   </header>
 
   <section id="about" class="gradient-hero px-4 py-20 text-center relative overflow-hidden">
-    <div class="star" style="left: 5%; top: 15%; animation-delay: 0s;">★</div>
-    <div class="star" style="left: 20%; top: 8%; animation-delay: 1.2s;">★</div>
-    <div class="star" style="left: 40%; top: 25%; animation-delay: 2.5s;">★</div>
-    <div class="star" style="left: 60%; top: 12%; animation-delay: 0.8s;">★</div>
-    <div class="star" style="left: 80%; top: 20%; animation-delay: 1.8s;">★</div>
-    <div class="star" style="left: 15%; top: 55%; animation-delay: 3.2s;">★</div>
-    <div class="star" style="left: 50%; top: 65%; animation-delay: 2.2s;">★</div>
-    <div class="star" style="left: 75%; top: 50%; animation-delay: 1.5s;">★</div>
-    <div class="star" style="left: 90%; top: 70%; animation-delay: 2.8s;">★</div>
-    <div class="star" style="left: 35%; top: 75%; animation-delay: 0.5s;">★</div>
-
     <div class="max-w-3xl mx-auto space-y-6 relative z-10">
       <div class="text-5xl">✨</div>
       <h1 class="text-4xl font-bold">AI-аватар для вашего бизнеса</h1>
@@ -280,34 +187,7 @@
     © 2025 ВидеоВизитки
   </footer>
 
-  <div class="mascot-widget" onclick="toggleBubble()">
-    <div id="mascotBubble" class="mascot-bubble">
-      <p class="text-gray-700 text-base">Привет! 👋</p>
-      <p class="text-gray-500 text-sm mt-1">Хочешь своего маскота?</p>
-      <a href="#contact" class="text-purple-600 font-medium text-sm mt-2 inline-block" onclick="event.stopPropagation(); toggleBubble()">Напиши мне!</a>
-    </div>
-    <div class="w-28 h-28 rounded-full overflow-hidden shadow-xl shadow-purple-200 border-4 border-white relative bg-gradient-to-br from-purple-100 to-pink-100">
-      <img src="https://getfile.dokpub.com/yandex/get/LGoOsNWcJ3OeRw" alt="Маскот" class="w-full h-full object-cover mascot-eyes">
-      <div class="absolute -bottom-1 -right-1 text-2xl mascot-paw">🖐</div>
-    </div>
-  </div>
-
   <script>
-    function toggleBubble() {
-      const bubble = document.getElementById('mascotBubble');
-      bubble.classList.toggle('show');
-    }
-
-    setTimeout(() => {
-      document.getElementById('mascotBubble').classList.add('show');
-    }, 5000);
-
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.mascot-widget')) {
-        document.getElementById('mascotBubble').classList.remove('show');
-      }
-    });
-
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
