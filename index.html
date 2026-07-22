@@ -6,7 +6,6 @@
   <title>ВидеоВизитки</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Hero градиент с анимацией */
     @keyframes gradientShift {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -18,39 +17,38 @@
       animation: gradientShift 8s ease infinite;
     }
 
-    /* Плавающие звёздочки */
     @keyframes floatStar {
       0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
       20% { opacity: 1; }
       80% { opacity: 1; }
-      100% { transform: translateY(-100px) rotate(180deg); opacity: 0; }
+      100% { transform: translateY(-120px) rotate(360deg); opacity: 0; }
     }
     .star {
       position: absolute;
-      font-size: 20px;
-      animation: floatStar 4s ease-in-out infinite;
+      font-size: 24px;
+      animation: floatStar 5s ease-in-out infinite;
       pointer-events: none;
+      color: #fbbf24;
+      text-shadow: 0 0 10px rgba(251,191,36,0.5);
     }
 
-    /* Виджет маскота */
     .mascot-widget {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: 30px;
+      right: 30px;
       z-index: 100;
       cursor: pointer;
       animation: floatMascot 3s ease-in-out infinite;
     }
     .mascot-widget:hover {
       animation: none;
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
     @keyframes floatMascot {
       0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-12px); }
     }
 
-    /* Мигание тигрёнка */
     @keyframes blink {
       0%, 90%, 100% { transform: scaleY(1); }
       95% { transform: scaleY(0.1); }
@@ -59,27 +57,26 @@
       animation: blink 4s ease-in-out infinite;
     }
 
-    /* Махание лапкой */
     @keyframes wave {
       0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(-15deg); }
-      75% { transform: rotate(15deg); }
+      25% { transform: rotate(-20deg); }
+      75% { transform: rotate(20deg); }
     }
     .mascot-paw {
-      animation: wave 2s ease-in-out infinite;
+      animation: wave 2.5s ease-in-out infinite;
       transform-origin: bottom center;
     }
 
     .mascot-bubble {
       position: absolute;
-      bottom: 80px;
+      bottom: 100px;
       right: 0;
       background: white;
-      border-radius: 16px;
-      padding: 12px 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      font-size: 14px;
-      max-width: 200px;
+      border-radius: 20px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      font-size: 15px;
+      max-width: 220px;
       opacity: 0;
       transform: translateY(10px);
       transition: all 0.3s ease;
@@ -93,16 +90,15 @@
     .mascot-bubble::after {
       content: '';
       position: absolute;
-      bottom: -8px;
-      right: 30px;
-      width: 16px;
-      height: 16px;
+      bottom: -10px;
+      right: 40px;
+      width: 20px;
+      height: 20px;
       background: white;
       transform: rotate(45deg);
       box-shadow: 2px 2px 4px rgba(0,0,0,0.05);
     }
 
-    /* Анимация появления блоков */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
@@ -111,7 +107,6 @@
       animation: fadeInUp 0.8s ease forwards;
     }
 
-    /* Кнопка Play при наведении */
     .play-btn {
       transition: all 0.3s ease;
     }
@@ -145,15 +140,16 @@
   </header>
 
   <section id="about" class="gradient-hero px-4 py-20 text-center relative overflow-hidden">
-    <!-- Плавающие звёздочки -->
-    <div class="star" style="left: 10%; top: 20%; animation-delay: 0s;">✨</div>
-    <div class="star" style="left: 30%; top: 10%; animation-delay: 1s;">⭐</div>
-    <div class="star" style="left: 50%; top: 30%; animation-delay: 2s;">✨</div>
-    <div class="star" style="left: 70%; top: 15%; animation-delay: 0.5s;">🌟</div>
-    <div class="star" style="left: 85%; top: 25%; animation-delay: 1.5s;">✨</div>
-    <div class="star" style="left: 20%; top: 60%; animation-delay: 3s;">⭐</div>
-    <div class="star" style="left: 60%; top: 70%; animation-delay: 2.5s;">✨</div>
-    <div class="star" style="left: 40%; top: 80%; animation-delay: 1.8s;">🌟</div>
+    <div class="star" style="left: 5%; top: 15%; animation-delay: 0s;">★</div>
+    <div class="star" style="left: 20%; top: 8%; animation-delay: 1.2s;">★</div>
+    <div class="star" style="left: 40%; top: 25%; animation-delay: 2.5s;">★</div>
+    <div class="star" style="left: 60%; top: 12%; animation-delay: 0.8s;">★</div>
+    <div class="star" style="left: 80%; top: 20%; animation-delay: 1.8s;">★</div>
+    <div class="star" style="left: 15%; top: 55%; animation-delay: 3.2s;">★</div>
+    <div class="star" style="left: 50%; top: 65%; animation-delay: 2.2s;">★</div>
+    <div class="star" style="left: 75%; top: 50%; animation-delay: 1.5s;">★</div>
+    <div class="star" style="left: 90%; top: 70%; animation-delay: 2.8s;">★</div>
+    <div class="star" style="left: 35%; top: 75%; animation-delay: 0.5s;">★</div>
 
     <div class="max-w-3xl mx-auto space-y-6 relative z-10">
       <div class="text-5xl">✨</div>
@@ -284,16 +280,15 @@
     © 2025 ВидеоВизитки
   </footer>
 
-  <!-- Виджет маскота -->
   <div class="mascot-widget" onclick="toggleBubble()">
     <div id="mascotBubble" class="mascot-bubble">
-      <p class="text-gray-700">Привет! 👋</p>
+      <p class="text-gray-700 text-base">Привет! 👋</p>
       <p class="text-gray-500 text-sm mt-1">Хочешь своего маскота?</p>
       <a href="#contact" class="text-purple-600 font-medium text-sm mt-2 inline-block" onclick="event.stopPropagation(); toggleBubble()">Напиши мне!</a>
     </div>
-    <div class="w-20 h-20 rounded-full overflow-hidden shadow-lg shadow-purple-200 border-2 border-white relative">
-      <img src="vibecraft_assets_IMG_8293.JPG" alt="Маскот" class="w-full h-full object-cover mascot-eyes">
-      <div class="absolute bottom-2 right-2 text-lg mascot-paw">🖐</div>
+    <div class="w-28 h-28 rounded-full overflow-hidden shadow-xl shadow-purple-200 border-4 border-white relative bg-gradient-to-br from-purple-100 to-pink-100">
+      <img src="https://getfile.dokpub.com/yandex/get/LGoOsNWcJ3OeRw" alt="Маскот" class="w-full h-full object-cover mascot-eyes">
+      <div class="absolute -bottom-1 -right-1 text-2xl mascot-paw">🖐</div>
     </div>
   </div>
 
@@ -313,7 +308,6 @@
       }
     });
 
-    // Анимация появления секций при прокрутке
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -326,7 +320,6 @@
       observer.observe(el);
     });
 
-    // Игра
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
@@ -355,13 +348,11 @@
     function drawTooth(x, y) {
       ctx.save();
       
-      // Тень
       ctx.beginPath();
       ctx.ellipse(x + 3, y + 5, 50, 40, 0, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(0,0,0,0.08)';
       ctx.fill();
 
-      // Основная форма зуба
       ctx.beginPath();
       ctx.moveTo(x - 44, y + 8);
       ctx.quadraticCurveTo(x - 46, y - 12, x - 40, y - 28);
@@ -375,7 +366,6 @@
       ctx.quadraticCurveTo(x - 42, y + 27, x - 44, y + 8);
       ctx.closePath();
 
-      // Градиент зуба
       const healthRatio = toothHealth / 100;
       const r = Math.floor(255 - (1 - healthRatio) * 100);
       const g = Math.floor(255 - (1 - healthRatio) * 80);
@@ -392,21 +382,17 @@
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Блик
       ctx.beginPath();
       ctx.ellipse(x - 16, y - 32, 10, 14, -0.2, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(255,255,255,0.5)';
       ctx.fill();
 
-      // Тёмные пятна
       for (let i = 0; i < germs.length; i++) {
         if (germs[i].landed) {
-          // Внешнее тёмное пятно
           ctx.beginPath();
           ctx.arc(germs[i].landX, germs[i].landY, 8, 0, Math.PI * 2);
           ctx.fillStyle = '#4a2800';
           ctx.fill();
-          // Внутреннее
           ctx.beginPath();
           ctx.arc(germs[i].landX - 2, germs[i].landY - 2, 4, 0, Math.PI * 2);
           ctx.fillStyle = '#6b3a00';
@@ -414,9 +400,7 @@
         }
       }
 
-      // Лицо
       if (smile) {
-        // Счастливые глаза
         ctx.beginPath();
         ctx.arc(x - 14, y - 18, 5, 0.1, Math.PI - 0.1);
         ctx.strokeStyle = '#444';
@@ -426,7 +410,6 @@
         ctx.arc(x + 14, y - 18, 5, 0.1, Math.PI - 0.1);
         ctx.stroke();
 
-        // Румянец
         ctx.beginPath();
         ctx.arc(x - 24, y - 8, 7, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(255,150,150,0.3)';
@@ -435,14 +418,12 @@
         ctx.arc(x + 24, y - 8, 7, 0, Math.PI * 2);
         ctx.fill();
 
-        // Улыбка
         ctx.beginPath();
         ctx.arc(x, y + 2, 15, 0.1, Math.PI - 0.1);
         ctx.strokeStyle = '#444';
         ctx.lineWidth = 3;
         ctx.stroke();
       } else {
-        // Грустные глаза
         ctx.beginPath();
         ctx.arc(x - 14, y - 18, 4, 0, Math.PI * 2);
         ctx.fillStyle = '#444';
@@ -451,13 +432,11 @@
         ctx.arc(x + 14, y - 18, 4, 0, Math.PI * 2);
         ctx.fill();
 
-        // Слеза
         ctx.beginPath();
         ctx.ellipse(x - 22, y - 8, 3, 5, 0, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(100,180,255,0.6)';
         ctx.fill();
 
-        // Грустный рот
         ctx.beginPath();
         ctx.arc(x, y + 10, 11, Math.PI + 0.2, -0.2);
         ctx.strokeStyle = '#444';
@@ -471,7 +450,6 @@
     function drawBrush(x, y) {
       ctx.save();
       
-      // Ручка
       ctx.beginPath();
       ctx.moveTo(x - 5, y + 55);
       ctx.lineTo(x + 5, y + 55);
@@ -488,7 +466,6 @@
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      // Головка щётки
       ctx.beginPath();
       ctx.roundRect(x - 20, y - 24, 40, 20, 7);
       const headGrad = ctx.createLinearGradient(x, y - 24, x, y - 4);
@@ -500,7 +477,6 @@
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      // Щетинки
       for (let i = -16; i <= 16; i += 5) {
         ctx.beginPath();
         ctx.moveTo(x + i, y - 24);
@@ -519,13 +495,11 @@
       ctx.translate(g.x, g.y);
       ctx.rotate(g.angle);
 
-      // Тень
       ctx.beginPath();
       ctx.arc(2, 2, g.size + 2, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(0,0,0,0.1)';
       ctx.fill();
 
-      // Основное тело с градиентом
       const grad = ctx.createRadialGradient(-3, -3, 2, 0, 0, g.size);
       grad.addColorStop(0, '#a3e635');
       grad.addColorStop(0.6, '#4ade80');
@@ -539,13 +513,11 @@
       ctx.lineWidth = 2.5;
       ctx.stroke();
 
-      // Блик
       ctx.beginPath();
       ctx.arc(-4, -4, g.size * 0.25, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(255,255,255,0.4)';
       ctx.fill();
 
-      // Ножки
       for (let i = 0; i < 6; i++) {
         const a = (i / 6) * Math.PI * 2;
         ctx.beginPath();
@@ -557,7 +529,6 @@
         ctx.stroke();
       }
 
-      // Злые глаза
       ctx.beginPath();
       ctx.arc(-5, -3, 3, 0, Math.PI * 2);
       ctx.fillStyle = '#333';
@@ -566,7 +537,6 @@
       ctx.arc(5, -3, 3, 0, Math.PI * 2);
       ctx.fill();
 
-      // Злые брови
       ctx.beginPath();
       ctx.moveTo(-10, -9);
       ctx.lineTo(-3, -6);
@@ -578,7 +548,6 @@
       ctx.lineTo(3, -6);
       ctx.stroke();
 
-      // Рот
       ctx.beginPath();
       ctx.arc(0, 5, 4, 0, Math.PI);
       ctx.fillStyle = '#333';
