@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ВидеоВизитки</title>
+  <title>NeuraFace</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @keyframes gradientShift {
@@ -49,26 +49,19 @@
     .video-card:hover .overlay {
       background: rgba(0,0,0,0.1);
     }
-
-    #gameCanvas {
-      display: block;
-      margin: 0 auto;
-      border-radius: 16px;
-      background: #f0fdf4;
-      cursor: none;
-      touch-action: none;
-    }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
+  <div class="bg-purple-600 text-white text-center text-xs py-1.5 px-4 leading-relaxed">
+    NeuraFace — мы создаём AI-аватары, которые работают за вас. Без сложных интеграций и лишних затрат. Ваш клиентский сервис станет незабываемым, а бренд — тем самым, о котором говорят. Выделяйтесь. Запоминайтесь. Растите с нами.
+  </div>
   <header class="sticky top-0 bg-white/80 backdrop-blur border-b z-50">
     <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-      <span class="text-lg font-bold">✨ ВидеоВизитки</span>
+      <span class="text-lg font-bold">✨ NeuraFace</span>
       <nav class="flex gap-6 text-sm text-gray-500">
         <a href="#about" class="hover:text-gray-900">Описание</a>
         <a href="#examples" class="hover:text-gray-900">Примеры</a>
         <a href="#pricing" class="hover:text-gray-900">Прайс</a>
-        <a href="#game" class="hover:text-gray-900">Игра</a>
         <a href="#contact" class="hover:text-gray-900">Контакты</a>
       </nav>
     </div>
@@ -169,7 +162,8 @@
       <div class="bg-white rounded-xl border p-6">
         <div class="text-2xl mb-3">♾️</div>
         <h3 class="font-medium">Ежедневные визитки</h3>
-        <p class="text-3xl font-bold mt-4">20 000 <span class="text-sm font-normal text-gray-500">руб/мес</span></p>
+        <p class="text-3xl font-bold mt-4">от 20 000 <span class="text-sm font-normal text-gray-500">руб/мес</span></p>
+        <p class="text-xs text-gray-400 mt-1">цена зависит от объёма</p>
         <ul class="mt-4 space-y-2 text-sm text-gray-500">
           <li>✦ Индивидуальный персонаж</li>
           <li>✦ Ежедневно</li>
@@ -189,15 +183,6 @@
     </div>
   </section>
 
-  <section id="game" class="px-4 py-20 max-w-3xl mx-auto animate-section">
-    <h2 class="text-2xl font-semibold text-center mb-2">🦷 Почисти зубик!</h2>
-    <p class="text-center text-gray-500 mb-6">Вариант игры для доброго зубика</p>
-    <canvas id="gameCanvas" width="600" height="420"></canvas>
-    <div class="text-center mt-4">
-      <button onclick="resetGame()" class="bg-purple-600 text-white px-6 py-2 rounded-full text-sm hover:bg-purple-700 transition-colors">Начать заново</button>
-    </div>
-  </section>
-
   <section id="contact" class="px-4 py-20 max-w-2xl mx-auto text-center animate-section">
     <h2 class="text-2xl font-semibold mb-8">Свяжитесь со мной</h2>
     <p class="text-gray-500 mb-4">Напишите мне напрямую:</p>
@@ -206,7 +191,7 @@
   </section>
 
   <footer class="border-t py-6 text-center text-xs text-gray-400">
-    © 2025 ВидеоВизитки
+    © 2025 NeuraFace
   </footer>
 
   <script>
@@ -221,344 +206,6 @@
       el.style.animationPlayState = 'paused';
       observer.observe(el);
     });
-
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-
-    let toothX = 300, toothY = 310;
-    let brushX = 300, brushY = 150;
-    let germs = [];
-    let toothHealth = 100;
-    let gameOver = false;
-    let smile = true;
-    let score = 0;
-
-    function spawnGerm() {
-      germs.push({
-        x: Math.random() * 540 + 30,
-        y: -20,
-        speed: 0.8 + Math.random() * 1.2,
-        size: 16 + Math.random() * 8,
-        landed: false,
-        landX: 0,
-        landY: 0,
-        angle: Math.random() * Math.PI * 2,
-        pulse: 0
-      });
-    }
-
-    function drawTooth(x, y) {
-      ctx.save();
-      
-      ctx.beginPath();
-      ctx.ellipse(x + 3, y + 5, 50, 40, 0, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(0,0,0,0.08)';
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.moveTo(x - 44, y + 8);
-      ctx.quadraticCurveTo(x - 46, y - 12, x - 40, y - 28);
-      ctx.quadraticCurveTo(x - 32, y - 50, x - 12, y - 54);
-      ctx.quadraticCurveTo(x, y - 56, x + 12, y - 54);
-      ctx.quadraticCurveTo(x + 32, y - 50, x + 40, y - 28);
-      ctx.quadraticCurveTo(x + 46, y - 12, x + 44, y + 8);
-      ctx.quadraticCurveTo(x + 42, y + 27, x + 26, y + 32);
-      ctx.quadraticCurveTo(x + 10, y + 37, x, y + 35);
-      ctx.quadraticCurveTo(x - 10, y + 37, x - 26, y + 32);
-      ctx.quadraticCurveTo(x - 42, y + 27, x - 44, y + 8);
-      ctx.closePath();
-
-      const healthRatio = toothHealth / 100;
-      const r = Math.floor(255 - (1 - healthRatio) * 100);
-      const g = Math.floor(255 - (1 - healthRatio) * 80);
-      const b = Math.floor(255 - (1 - healthRatio) * 40);
-      
-      const grad = ctx.createRadialGradient(x - 10, y - 30, 5, x, y, 55);
-      grad.addColorStop(0, `rgb(${Math.min(255,r+30)}, ${Math.min(255,g+30)}, ${Math.min(255,b+30)})`);
-      grad.addColorStop(0.5, `rgb(${r}, ${g}, ${b})`);
-      grad.addColorStop(1, `rgb(${Math.max(0,r-20)}, ${Math.max(0,g-15)}, ${Math.max(0,b-10)})`);
-      ctx.fillStyle = grad;
-      ctx.fill();
-      
-      ctx.strokeStyle = '#c0c0c0';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.ellipse(x - 16, y - 32, 10, 14, -0.2, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255,255,255,0.5)';
-      ctx.fill();
-
-      for (let i = 0; i < germs.length; i++) {
-        if (germs[i].landed) {
-          ctx.beginPath();
-          ctx.arc(germs[i].landX, germs[i].landY, 8, 0, Math.PI * 2);
-          ctx.fillStyle = '#4a2800';
-          ctx.fill();
-          ctx.beginPath();
-          ctx.arc(germs[i].landX - 2, germs[i].landY - 2, 4, 0, Math.PI * 2);
-          ctx.fillStyle = '#6b3a00';
-          ctx.fill();
-        }
-      }
-
-      if (smile) {
-        ctx.beginPath();
-        ctx.arc(x - 14, y - 18, 5, 0.1, Math.PI - 0.1);
-        ctx.strokeStyle = '#444';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(x + 14, y - 18, 5, 0.1, Math.PI - 0.1);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(x - 24, y - 8, 7, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,150,150,0.3)';
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x + 24, y - 8, 7, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(x, y + 2, 15, 0.1, Math.PI - 0.1);
-        ctx.strokeStyle = '#444';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-      } else {
-        ctx.beginPath();
-        ctx.arc(x - 14, y - 18, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#444';
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x + 14, y - 18, 4, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.ellipse(x - 22, y - 8, 3, 5, 0, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(100,180,255,0.6)';
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(x, y + 10, 11, Math.PI + 0.2, -0.2);
-        ctx.strokeStyle = '#444';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-      }
-
-      ctx.restore();
-    }
-
-    function drawBrush(x, y) {
-      ctx.save();
-      
-      ctx.beginPath();
-      ctx.moveTo(x - 5, y + 55);
-      ctx.lineTo(x + 5, y + 55);
-      ctx.lineTo(x + 6, y - 5);
-      ctx.lineTo(x - 6, y - 5);
-      ctx.closePath();
-      
-      const handleGrad = ctx.createLinearGradient(x, y + 55, x, y - 5);
-      handleGrad.addColorStop(0, '#6366f1');
-      handleGrad.addColorStop(1, '#818cf8');
-      ctx.fillStyle = handleGrad;
-      ctx.fill();
-      ctx.strokeStyle = '#4f46e5';
-      ctx.lineWidth = 1;
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.roundRect(x - 20, y - 24, 40, 20, 7);
-      const headGrad = ctx.createLinearGradient(x, y - 24, x, y - 4);
-      headGrad.addColorStop(0, '#60a5fa');
-      headGrad.addColorStop(1, '#93c5fd');
-      ctx.fillStyle = headGrad;
-      ctx.fill();
-      ctx.strokeStyle = '#3b82f6';
-      ctx.lineWidth = 1;
-      ctx.stroke();
-
-      for (let i = -16; i <= 16; i += 5) {
-        ctx.beginPath();
-        ctx.moveTo(x + i, y - 24);
-        ctx.lineTo(x + i - 1, y - 35);
-        ctx.lineTo(x + i + 1, y - 35);
-        ctx.closePath();
-        ctx.fillStyle = '#fef3c7';
-        ctx.fill();
-      }
-
-      ctx.restore();
-    }
-
-    function drawGerm(g) {
-      ctx.save();
-      ctx.translate(g.x, g.y);
-      ctx.rotate(g.angle);
-
-      ctx.beginPath();
-      ctx.arc(2, 2, g.size + 2, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(0,0,0,0.1)';
-      ctx.fill();
-
-      const grad = ctx.createRadialGradient(-3, -3, 2, 0, 0, g.size);
-      grad.addColorStop(0, '#a3e635');
-      grad.addColorStop(0.6, '#4ade80');
-      grad.addColorStop(1, '#22c55e');
-      
-      ctx.beginPath();
-      ctx.arc(0, 0, g.size, 0, Math.PI * 2);
-      ctx.fillStyle = grad;
-      ctx.fill();
-      ctx.strokeStyle = '#16a34a';
-      ctx.lineWidth = 2.5;
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(-4, -4, g.size * 0.25, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255,255,255,0.4)';
-      ctx.fill();
-
-      for (let i = 0; i < 6; i++) {
-        const a = (i / 6) * Math.PI * 2;
-        ctx.beginPath();
-        ctx.moveTo(Math.cos(a) * g.size * 0.7, Math.sin(a) * g.size * 0.7);
-        ctx.lineTo(Math.cos(a) * (g.size + 7), Math.sin(a) * (g.size + 7));
-        ctx.strokeStyle = '#16a34a';
-        ctx.lineWidth = 3;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-      }
-
-      ctx.beginPath();
-      ctx.arc(-5, -3, 3, 0, Math.PI * 2);
-      ctx.fillStyle = '#333';
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(5, -3, 3, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.moveTo(-10, -9);
-      ctx.lineTo(-3, -6);
-      ctx.strokeStyle = '#333';
-      ctx.lineWidth = 2.5;
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(10, -9);
-      ctx.lineTo(3, -6);
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(0, 5, 4, 0, Math.PI);
-      ctx.fillStyle = '#333';
-      ctx.fill();
-
-      ctx.restore();
-    }
-
-    function update() {
-      if (gameOver) return;
-
-      if (Math.random() < 0.02) spawnGerm();
-
-      for (let i = 0; i < germs.length; i++) {
-        if (!germs[i].landed) {
-          germs[i].y += germs[i].speed;
-          germs[i].angle += 0.03;
-
-          if (germs[i].y + germs[i].size > toothY - 35) {
-            germs[i].landed = true;
-            germs[i].landX = toothX + (Math.random() - 0.5) * 55;
-            germs[i].landY = toothY + (Math.random() - 0.5) * 25;
-            toothHealth -= 12;
-            if (toothHealth <= 0) {
-              toothHealth = 0;
-              gameOver = true;
-            }
-          }
-
-          const dx = germs[i].x - brushX;
-          const dy = germs[i].y - brushY;
-          if (dx * dx + dy * dy < 500) {
-            germs.splice(i, 1);
-            score++;
-            i--;
-            continue;
-          }
-        }
-      }
-
-      smile = toothHealth > 30;
-
-      ctx.clearRect(0, 0, 600, 420);
-      
-      const bgGrad = ctx.createLinearGradient(0, 0, 0, 420);
-      bgGrad.addColorStop(0, '#f0fdf4');
-      bgGrad.addColorStop(1, '#dcfce7');
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, 600, 420);
-
-      ctx.beginPath();
-      ctx.moveTo(0, 345);
-      ctx.lineTo(600, 345);
-      ctx.strokeStyle = '#bbf7d0';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      drawTooth(toothX, toothY);
-      drawBrush(brushX, brushY);
-
-      for (const g of germs) {
-        drawGerm(g);
-      }
-
-      ctx.fillStyle = '#666';
-      ctx.font = '14px sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(`Почищено: ${score}`, 20, 30);
-
-      if (gameOver) {
-        ctx.fillStyle = 'rgba(0,0,0,0.5)';
-        ctx.fillRect(0, 0, 600, 420);
-        ctx.fillStyle = '#fff';
-        ctx.font = '28px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('😬 Зубик заболел!', 300, 190);
-        ctx.font = '16px sans-serif';
-        ctx.fillText('Нажми "Начать заново"', 300, 230);
-      } else if (germs.length === 0 && toothHealth > 80 && score > 0) {
-        ctx.fillStyle = '#16a34a';
-        ctx.font = '18px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('✨ Чистота! Зубик счастлив!', 300, 400);
-      }
-    }
-
-    canvas.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      brushX = Math.max(20, Math.min(580, e.clientX - rect.left));
-      brushY = Math.max(20, Math.min(400, e.clientY - rect.top));
-    });
-
-    canvas.addEventListener('touchmove', (e) => {
-      e.preventDefault();
-      const rect = canvas.getBoundingClientRect();
-      const touch = e.touches[0];
-      brushX = Math.max(20, Math.min(580, touch.clientX - rect.left));
-      brushY = Math.max(20, Math.min(400, touch.clientY - rect.top));
-    }, { passive: false });
-
-    function resetGame() {
-      germs = [];
-      toothHealth = 100;
-      gameOver = false;
-      smile = true;
-      score = 0;
-    }
-
-    setInterval(update, 30);
   </script>
 </body>
 </html>
