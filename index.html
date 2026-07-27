@@ -33,6 +33,23 @@
       box-shadow: 0 0 20px rgba(255,255,255,0.5);
     }
 
+    .video-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .video-card .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    .video-card:hover .overlay {
+      background: rgba(0,0,0,0.1);
+    }
+
     #gameCanvas {
       display: block;
       margin: 0 auto;
@@ -90,34 +107,37 @@
   <section id="examples" class="px-4 py-20 max-w-5xl mx-auto animate-section">
     <h2 class="text-2xl font-semibold text-center mb-12">Примеры работ</h2>
     <div class="grid gap-8 sm:grid-cols-3">
-      <div class="bg-white rounded-xl border overflow-hidden">
-        <a href="https://disk.yandex.ru/i/yW4yVVCCu-ZUVg" target="_blank" class="block">
-          <div class="aspect-video bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors relative">
+      <div class="bg-white rounded-xl border overflow-hidden video-card">
+        <a href="https://disk.yandex.ru/i/yW4yVVCCu-ZUVg" target="_blank" class="block relative">
+          <img src="FullSizeRender(3).jpg" alt="Для стоматологии" class="w-full aspect-video object-cover">
+          <div class="overlay">
             <div class="play-btn w-16 h-16 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
               <span class="text-2xl text-gray-700 ml-1">▶</span>
             </div>
           </div>
-          <div class="p-4"><p class="text-sm text-gray-500">Для стоматологии</p></div>
+          <div class="p-4 bg-white relative"><p class="text-sm text-gray-500">Для стоматологии</p></div>
         </a>
       </div>
-      <div class="bg-white rounded-xl border overflow-hidden">
-        <a href="https://disk.yandex.ru/i/53fderrl8_Q9tg" target="_blank" class="block">
-          <div class="aspect-video bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors relative">
+      <div class="bg-white rounded-xl border overflow-hidden video-card">
+        <a href="https://disk.yandex.ru/i/53fderrl8_Q9tg" target="_blank" class="block relative">
+          <img src="IMG_8241.JPG" alt="Для школы английского" class="w-full aspect-video object-cover">
+          <div class="overlay">
             <div class="play-btn w-16 h-16 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
               <span class="text-2xl text-gray-700 ml-1">▶</span>
             </div>
           </div>
-          <div class="p-4"><p class="text-sm text-gray-500">Для школы английского</p></div>
+          <div class="p-4 bg-white relative"><p class="text-sm text-gray-500">Для школы английского</p></div>
         </a>
       </div>
-      <div class="bg-white rounded-xl border overflow-hidden">
-        <a href="https://disk.yandex.ru/i/a40L5HKZ3xpM-g" target="_blank" class="block">
-          <div class="aspect-video bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors relative">
+      <div class="bg-white rounded-xl border overflow-hidden video-card">
+        <a href="https://disk.yandex.ru/i/a40L5HKZ3xpM-g" target="_blank" class="block relative">
+          <img src="IMG_8333.JPG" alt="Для салонов красоты" class="w-full aspect-video object-cover">
+          <div class="overlay">
             <div class="play-btn w-16 h-16 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
               <span class="text-2xl text-gray-700 ml-1">▶</span>
             </div>
           </div>
-          <div class="p-4"><p class="text-sm text-gray-500">Для салонов красоты</p></div>
+          <div class="p-4 bg-white relative"><p class="text-sm text-gray-500">Для салонов красоты</p></div>
         </a>
       </div>
     </div>
