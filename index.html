@@ -1,211 +1,463 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NeuraFace</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuraFace — AI-аватар для вашего бизнеса</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    * { font-family: 'Inter', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #faf9f6; color: #1a1a2e; }
+    .gradient-hero {
+      background: linear-gradient(135deg, #fdf2f8 0%, #ede9fe 30%, #e0f2fe 60%, #fef3c7 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite;
+    }
     @keyframes gradientShift {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    .gradient-hero {
-      background: linear-gradient(135deg, #e0e7ff, #ddd6fe, #fce7f3, #fae8ff, #e0e7ff);
-      background-size: 400% 400%;
-      animation: gradientShift 8s ease infinite;
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-section {
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
       animation: fadeInUp 0.8s ease forwards;
     }
-
-    .play-btn {
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
       transition: all 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.04);
     }
-    .play-btn:hover {
-      transform: scale(1.2);
-      box-shadow: 0 0 20px rgba(255,255,255,0.5);
+    .card:hover {
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.1);
+      transform: translateY(-2px);
     }
-
     .video-card {
       position: relative;
       overflow: hidden;
+      border-radius: 16px;
+      cursor: pointer;
     }
-    .video-card .overlay {
+    .video-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .video-card:hover img {
+      transform: scale(1.05);
+    }
+    .play-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.3);
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: background 0.3s ease;
+    }
+    .video-card:hover .play-overlay {
+      background: rgba(0,0,0,0.4);
+    }
+    .play-btn {
+      width: 56px;
+      height: 56px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+    }
+    .video-card:hover .play-btn {
+      transform: scale(1.1);
+    }
+    .play-btn svg {
+      width: 24px;
+      height: 24px;
+      color: #7c3aed;
+      margin-left: 2px;
+    }
+    .banner {
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: white;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+    .banner span { opacity: 0.9; }
+    .banner strong { font-weight: 700; }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+    }
+    nav a {
+      color: #6b7280;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #7c3aed; }
+    .container { max-width: 1024px; margin: 0 auto; padding: 0 16px; }
+    section { padding: 80px 0; }
+    .section-title {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .section-title h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section-title p {
+      color: #6b7280;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .price-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px 24px;
+      border: 1px solid rgba(0,0,0,0.04);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .price-card:hover {
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.1);
+      transform: translateY(-2px);
+    }
+    .price-card.featured {
+      border-color: #a78bfa;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.1);
+    }
+    .badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #7c3aed;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 14px;
+      border-radius: 20px;
+    }
+    .price { font-size: 32px; font-weight: 800; margin: 12px 0 4px; }
+    .price-note { font-size: 14px; color: #6b7280; }
+    .price-card ul { list-style: none; margin-top: 16px; }
+    .price-card ul li {
+      font-size: 14px;
+      color: #6b7280;
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .price-card ul li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #a78bfa;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .icon-box {
+      width: 44px;
+      height: 44px;
+      background: rgba(124, 58, 237, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .icon-box svg { width: 22px; height: 22px; color: #7c3aed; }
+    .cat-card {
+      display: flex;
+      gap: 16px;
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(0,0,0,0.04);
       transition: all 0.3s ease;
     }
-    .video-card:hover .overlay {
-      background: rgba(0,0,0,0.1);
+    .cat-card:hover {
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.1);
+      transform: translateY(-2px);
+    }
+    .cat-card .icon-box { margin-bottom: 0; flex-shrink: 0; }
+    .cat-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .cat-card p { font-size: 14px; color: #6b7280; line-height: 1.5; }
+    .contact-section {
+      background: rgba(0,0,0,0.02);
+    }
+    .contact-info {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .contact-info a {
+      color: #7c3aed;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .contact-info a:hover { text-decoration: underline; }
+    form {
+      max-width: 480px;
+      margin: 0 auto;
+      background: white;
+      padding: 32px;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+    form input, form textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+      font-family: inherit;
+    }
+    form input:focus, form textarea:focus {
+      border-color: #7c3aed;
+    }
+    form textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    form button {
+      width: 100%;
+      padding: 12px;
+      background: #7c3aed;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    form button:hover { background: #6d28d9; }
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: #9ca3af;
+      font-size: 13px;
+      border-top: 1px solid rgba(0,0,0,0.04);
+    }
+    @media (max-width: 640px) {
+      nav { gap: 16px; }
+      section { padding: 48px 0; }
+      .grid-4 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <div class="bg-purple-600 text-white text-center text-xs py-1.5 px-4 leading-relaxed">
-    NeuraFace — мы создаём AI-аватары, которые работают за вас. Без сложных интеграций и лишних затрат. Ваш клиентский сервис станет незабываемым, а бренд — тем самым, о котором говорят. Выделяйтесь. Запоминайтесь. Растите с нами.
+<body>
+
+  <div class="banner">
+    <span>✨ </span><strong>NeuraFace</strong><span> — создаю AI-аватары и видеовизитки с мультяшными персонажами</span>
   </div>
-  <header class="sticky top-0 bg-white/80 backdrop-blur border-b z-50">
-    <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-      <span class="text-lg font-bold">✨ NeuraFace</span>
-      <nav class="flex gap-6 text-sm text-gray-500">
-        <a href="#about" class="hover:text-gray-900">Описание</a>
-        <a href="#examples" class="hover:text-gray-900">Примеры</a>
-        <a href="#pricing" class="hover:text-gray-900">Прайс</a>
-        <a href="#contact" class="hover:text-gray-900">Контакты</a>
-      </nav>
-    </div>
-  </header>
 
-  <section id="about" class="gradient-hero px-4 py-20 text-center relative overflow-hidden">
-    <div class="max-w-3xl mx-auto space-y-6 relative z-10">
-      <h1 class="text-4xl font-bold">AI-аватар для вашего бизнеса</h1>
-      <p class="text-lg text-gray-600">Создаю анимированные маскоты, которые сделают ваш клиентский сервис уникальным</p>
-      <p class="text-gray-500">AI-аватар станет вашим цифровым помощником: напомнит клиентам о визите, поздравит с праздниками и повысит лояльность</p>
-    </div>
-  </section>
+  <nav>
+    <a href="#about">Описание</a>
+    <a href="#examples">Примеры</a>
+    <a href="#pricing">Прайс</a>
+    <a href="#contact">Контакты</a>
+  </nav>
 
-  <section class="px-4 py-20 max-w-5xl mx-auto animate-section">
-    <h2 class="text-2xl font-semibold text-center mb-12">Кому это подходит</h2>
-    <div class="grid gap-6 sm:grid-cols-2">
-      <div class="flex gap-4 bg-white rounded-xl border p-5">
-        <div class="text-2xl">🦷</div>
-        <div><h3 class="font-medium">Детские стоматологии</h3><p class="text-sm text-gray-500">Снизьте страх перед лечением — мультяшный персонаж познакомит ребёнка с клиникой</p></div>
+  <section class="gradient-hero" id="about">
+    <div class="container" style="text-align:center;max-width:700px;margin:0 auto;">
+      <div style="margin-bottom:24px;">
+        <div class="icon-box" style="margin:0 auto 16px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg>
+        </div>
       </div>
-      <div class="flex gap-4 bg-white rounded-xl border p-5">
-        <div class="text-2xl">🎓</div>
-        <div><h3 class="font-medium">Детские школы</h3><p class="text-sm text-gray-500">Яркая визитка центра, кружка или репетитора</p></div>
-      </div>
-      <div class="flex gap-4 bg-white rounded-xl border p-5">
-        <div class="text-2xl">💄</div>
-        <div><h3 class="font-medium">Салоны красоты / Бьюти-мастера</h3><p class="text-sm text-gray-500">Идеально для бьюти-сферы — выделитесь среди конкурентов с уникальным маскотом</p></div>
-      </div>
-      <div class="flex gap-4 bg-white rounded-xl border p-5">
-        <div class="text-2xl">🏋️</div>
-        <div><h3 class="font-medium">Спортивные секции</h3><p class="text-sm text-gray-500">Мотивирующий ролик с маскотом секции, чтобы ребенок сам попросил записать его на тренировку</p></div>
-      </div>
+      <h1 style="font-size:40px;font-weight:800;margin-bottom:12px;line-height:1.2;">AI-аватар для вашего бизнеса</h1>
+      <p style="font-size:18px;color:#6b7280;margin-bottom:16px;line-height:1.6;">Создаю анимированные маскоты, которые сделают ваш клиентский сервис уникальным</p>
+      <p style="font-size:15px;color:#6b7280;line-height:1.6;max-width:560px;margin:0 auto;">AI-аватар станет вашим цифровым помощником: напомнит клиентам о предстоящем визите, поздравит с днём рождения и праздниками, а главное — повысит лояльность и сделает бренд узнаваемым</p>
     </div>
   </section>
 
-  <section id="examples" class="px-4 py-20 max-w-5xl mx-auto animate-section">
-    <h2 class="text-2xl font-semibold text-center mb-12">Примеры работ</h2>
-    <div class="grid gap-8 sm:grid-cols-3">
-      <div class="bg-white rounded-xl border overflow-hidden video-card">
-        <a href="https://disk.yandex.ru/i/yW4yVVCCu-ZUVg" target="_blank" class="block relative">
-          <img src="FullSizeRender(3).jpg" alt="Для стоматологии" class="w-full aspect-video object-cover">
-          <div class="overlay">
-            <div class="play-btn w-16 h-16 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
-              <span class="text-2xl text-gray-700 ml-1">▶</span>
-            </div>
+  <section>
+    <div class="container">
+      <div class="section-title">
+        <h2>Кому это подходит</h2>
+        <p>Видеовизитка работает везде, где важен тёплый первый контакт с ребёнком и родителем</p>
+      </div>
+      <div class="grid-3">
+        <div class="cat-card">
+          <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <div><h3>Детские стоматологии</h3><p>Снизьте страх перед лечением — мультяшный персонаж познакомит ребёнка с клиникой до визита</p></div>
+        </div>
+        <div class="cat-card">
+          <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+          <div><h3>Детские школы</h3><p>Яркая визитка центра, кружка или репетитора, которая запоминается и родителям, и детям</p></div>
+        </div>
+        <div class="cat-card">
+          <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div><h3>Детские лагеря</h3><p>Покажите атмосферу смены, вожатых и активностей в формате, который дети захотят переслать друзьям</p></div>
+        </div>
+        <div class="cat-card">
+          <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.5 6.5 17.5 17.5M6.5 17.5 17.5 6.5"/><circle cx="12" cy="12" r="10"/></svg></div>
+          <div><h3>Спортивные секции</h3><p>Мотивирующий ролик с маскотом секции, чтобы ребенок сам попросил записать его на тренировку</p></div>
+        </div>
+        <div class="cat-card">
+          <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div><h3>Салоны красоты / Бьюти-мастера</h3><p>Запоминающийся образ маскота, который выделит вас среди конкурентов и привлечёт новых клиентов</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="examples" style="background:rgba(0,0,0,0.02);">
+    <div class="container">
+      <div class="section-title">
+        <div class="icon-box" style="margin:0 auto 12px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
+        </div>
+        <h2>Примеры работ</h2>
+        <p>Посмотрите, как выглядят готовые видеовизитки для разных сфер</p>
+      </div>
+      <div class="grid-3">
+        <div class="video-card card" style="padding:0;">
+          <div style="aspect-ratio:16/9;background:#f3f4f6;">
+            <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls preload="metadata" playsinline style="width:100%;height:100%;object-fit:cover;"></video>
           </div>
-          <div class="p-4 bg-white relative"><p class="text-sm text-gray-500">Для стоматологии</p></div>
-        </a>
-      </div>
-      <div class="bg-white rounded-xl border overflow-hidden video-card">
-        <a href="https://disk.yandex.ru/i/53fderrl8_Q9tg" target="_blank" class="block relative">
-          <img src="IMG_8241.JPG" alt="Для школы английского" class="w-full aspect-video object-cover">
-          <div class="overlay">
-            <div class="play-btn w-16 h-16 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
-              <span class="text-2xl text-gray-700 ml-1">▶</span>
-            </div>
+          <div style="padding:16px;">
+            <p style="font-size:14px;color:#6b7280;">Пример видеовизитки для детской стоматологии</p>
           </div>
-          <div class="p-4 bg-white relative"><p class="text-sm text-gray-500">Для школы английского</p></div>
-        </a>
-      </div>
-      <div class="bg-white rounded-xl border overflow-hidden video-card">
-        <a href="https://disk.yandex.ru/i/a40L5HKZ3xpM-g" target="_blank" class="block relative">
-          <img src="IMG_8333.JPG" alt="Для салонов красоты" class="w-full aspect-video object-cover">
-          <div class="overlay">
-            <div class="play-btn w-16 h-16 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
-              <span class="text-2xl text-gray-700 ml-1">▶</span>
-            </div>
+        </div>
+        <div class="video-card card" style="padding:0;">
+          <div style="aspect-ratio:16/9;background:#f3f4f6;">
+            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" controls preload="metadata" playsinline style="width:100%;height:100%;object-fit:cover;"></video>
           </div>
-          <div class="p-4 bg-white relative"><p class="text-sm text-gray-500">Для салонов красоты</p></div>
-        </a>
+          <div style="padding:16px;">
+            <p style="font-size:14px;color:#6b7280;">Пример видеовизитки для детского лагеря</p>
+          </div>
+        </div>
+        <div class="video-card card" style="padding:0;">
+          <div style="aspect-ratio:16/9;background:#f3f4f6;">
+            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" controls preload="metadata" playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+          </div>
+          <div style="padding:16px;">
+            <p style="font-size:14px;color:#6b7280;">Пример видеовизитки для спортивной секции</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="pricing" class="px-4 py-20 max-w-5xl mx-auto animate-section">
-    <h2 class="text-2xl font-semibold text-center mb-12">Тарифы</h2>
-    <div class="grid gap-6 sm:grid-cols-4">
-      <div class="bg-white rounded-xl border p-6">
-        <div class="text-2xl mb-3">🎬</div>
-        <h3 class="font-medium">AI-аватар/видеовизитка</h3>
-        <p class="text-3xl font-bold mt-4">1 490 <span class="text-sm font-normal text-gray-500">руб/разово</span></p>
-        <ul class="mt-4 space-y-2 text-sm text-gray-500">
-          <li>✦ Разработка персонажа</li>
-          <li>✦ Анимация 8–10 сек</li>
-          <li>✦ HD-качество</li>
-        </ul>
+  <section id="pricing">
+    <div class="container">
+      <div class="section-title">
+        <h2>Тарифы</h2>
+        <p>Выберите формат, который подходит вашим задачам</p>
       </div>
-      <div class="bg-white rounded-xl border p-6 border-purple-300 shadow-lg relative">
-        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-purple-600 text-white px-3 py-1 rounded-full text-xs">Рекомендую</div>
-        <div class="text-2xl mb-3 mt-2">🌐</div>
-        <h3 class="font-medium">Сайт + видеовизитка</h3>
-        <p class="text-3xl font-bold mt-4">12 000 <span class="text-sm font-normal text-gray-500">руб/разово</span></p>
-        <ul class="mt-4 space-y-2 text-sm text-gray-500">
-          <li>✦ Всё из предыдущего</li>
-          <li>✦ Лендинг с маскотом</li>
-        </ul>
-      </div>
-      <div class="bg-white rounded-xl border p-6">
-        <div class="text-2xl mb-3">♾️</div>
-        <h3 class="font-medium">Ежедневные визитки</h3>
-        <p class="text-3xl font-bold mt-4">от 20 000 <span class="text-sm font-normal text-gray-500">руб/мес</span></p>
-        <p class="text-xs text-gray-400 mt-1">цена зависит от объёма</p>
-        <ul class="mt-4 space-y-2 text-sm text-gray-500">
-          <li>✦ Индивидуальный персонаж</li>
-          <li>✦ Ежедневно</li>
-          <li>✦ Приоритетная поддержка</li>
-        </ul>
-      </div>
-      <div class="bg-white rounded-xl border p-6">
-        <div class="text-2xl mb-3">✨</div>
-        <h3 class="font-medium">Маскот + лендинг + мультфильм</h3>
-        <p class="text-3xl font-bold mt-4">По запросу</p>
-        <ul class="mt-4 space-y-2 text-sm text-gray-500">
-          <li>✦ Уникальный маскот</li>
-          <li>✦ Полноценный лендинг</li>
-          <li>✦ Мультфильм</li>
-        </ul>
+      <div class="grid-4">
+        <div class="price-card">
+          <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+          <h3 style="font-size:15px;font-weight:600;line-height:1.3;">Создать короткую общую AI-аватар/видеовизитку</h3>
+          <div class="price">1 490</div>
+          <div class="price-note">разово</div>
+          <ul>
+            <li>Разработка персонажа</li>
+            <li>Анимация 8–10 секунд</li>
+            <li>Файл в HD-качестве</li>
+          </ul>
+        </div>
+        <div class="price-card featured">
+          <div class="badge">Рекомендую</div>
+          <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <h3 style="font-size:15px;font-weight:600;line-height:1.3;">Создать сайт с маскотом и персонализированную видеовизитку</h3>
+          <div class="price">12 000</div>
+          <div class="price-note">разово</div>
+          <ul>
+            <li>Всё из предыдущего тарифа</li>
+            <li>Лендинг с маскотом</li>
+          </ul>
+        </div>
+        <div class="price-card">
+          <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <h3 style="font-size:15px;font-weight:600;line-height:1.3;">Создавать ежедневные персонализированные визитки</h3>
+          <div class="price">от 20 000</div>
+          <div class="price-note">/мес · цена зависит от объёма</div>
+          <ul>
+            <li>Индивидуальный персонаж для клиента</li>
+            <li>Ежедневно</li>
+            <li>Приоритетная поддержка</li>
+          </ul>
+        </div>
+        <div class="price-card">
+          <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg></div>
+          <h3 style="font-size:15px;font-weight:600;line-height:1.3;">Маскот + лендинг + мультфильм</h3>
+          <div class="price">По запросу</div>
+          <div class="price-note"></div>
+          <ul>
+            <li>Уникальный персонаж-маскот</li>
+            <li>Полноценный лендинг с маскотом</li>
+            <li>Мультфильм</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="contact" class="px-4 py-20 max-w-2xl mx-auto text-center animate-section">
-    <h2 class="text-2xl font-semibold mb-8">Свяжитесь со мной</h2>
-    <p class="text-gray-500 mb-4">Напишите мне напрямую:</p>
-    <p class="text-lg font-medium">Telegram: @olyakutsenko</p>
-    <p class="text-lg font-medium">Тел: +7 (915) 239-79-45</p>
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <div class="section-title">
+        <div class="icon-box" style="margin:0 auto 12px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h2>Свяжитесь со мной</h2>
+        <p>Расскажите о вашем проекте, и я подготовлю индивидуальное предложение</p>
+      </div>
+      <div class="contact-info">
+        <p>Telegram: <a href="https://t.me/olyakutsenko" target="_blank">@olyakutsenko</a></p>
+        <p><a href="tel:+79152397945">+7 (915) 239-79-45</a></p>
+      </div>
+      <form onsubmit="event.preventDefault();alert('Спасибо! Я свяжусь с вами в ближайшее время.');this.reset();">
+        <input type="text" placeholder="Ваше имя" required />
+        <input type="text" placeholder="Телефон или email" required />
+        <textarea placeholder="Сообщение" required></textarea>
+        <button type="submit">Отправить</button>
+      </form>
+    </div>
   </section>
 
-  <footer class="border-t py-6 text-center text-xs text-gray-400">
+  <footer>
     © 2025 NeuraFace
   </footer>
 
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.animationPlayState = 'running';
-        }
-      });
-    });
-    document.querySelectorAll('.animate-section').forEach(el => {
-      el.style.animationPlayState = 'paused';
-      observer.observe(el);
-    });
-  </script>
 </body>
 </html>
